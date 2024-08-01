@@ -10,14 +10,15 @@ builder.Services.AddSwaggerGen();
 
 string conexaosql = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(conexaosql,
+    ServerVersion.AutoDetect(conexaosql)));
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(conexaosql,
-    ServerVersion.AutoDetect(conexaosql)));
 
 builder.Services.AddCors(options => {
     options.AddPolicy(name: "MinhaPolitica",
